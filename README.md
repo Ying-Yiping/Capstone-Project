@@ -16,3 +16,4 @@ The template uses the Minimal Jekyll theme: more details on this theme can be fo
   - You can also upload and specify your own file
 - Make changes to the `index.md` file — this is the main page of your website!
   - Useful resource: [Markdown Cheatsheet](http://www.jekyllnow.com/Markdown-Style-Guide/)
+- Website: https://ying-yiping.github.io/Capstone-Project/
