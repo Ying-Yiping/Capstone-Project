@@ -10,9 +10,9 @@ hv-loader:
 
 # Welcome!
 
-We are **Yiping Ying**, **Ying Xu**, **Troy Yang**, a group from [CIS 5450](https://sites.google.com/seas.upenn.edu/cis545/home), Spring 2023.
+I am **Yiping Ying**, currently a student of [Master of Urabn Spatial Analytics](https://www.design.upenn.edu/urban-spatial-analytics) at UPenn.
 
-This website is used to display our final project for this course.
+This website is used to display my capstone project at this program.
 
 # I. Motivation
 
