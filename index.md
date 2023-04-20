@@ -1,65 +1,212 @@
 ---
 layout: default
 altair-loader:
-  altair-chart-1: "charts/measlesAltair.json"
+  altair-chart-2: "charts/Philly_mode_income.json"
+  altair-chart-3: "charts/Philly_mode_age.json"
 hv-loader:
-  hv-chart-1: ["charts/measlesHvplot.html", "500"] # second argument is the desired height
-folium-loader:
-  folium-chart-1: ["charts/foliumChart.html", "400"] # second argument is the desired height
-  folium-chart-2: ["charts/percent_no_internet.html", "400"] # second argument is the desired height
+  hv-chart-2: ["charts/tabs.html", "500"]
+  hv-chart-3: ["charts/tabs0.html", "500"]
 ---
 
 # Welcome!
 
-This single-page website demos how to display visualizations created with altair, hvplot, and folium.
+We are **Yiping Ying**, **Ying Xu**, **Troy Yang**, a group from [CIS 5450](https://sites.google.com/seas.upenn.edu/cis545/home), Spring 2023.
 
-For examples of how to use markdown to style text, see this [this page](./another-page.html).
+This website is used to display our final project for this course.
 
-# Example: Embedding Altair & Hvplot Charts
+# I. Motivation
 
-This section will show examples of embedding interactive charts produced using [Altair](https://altair-viz.github.io) and [Hvplot](https://hvplot.pyviz.org/).
+Bike sharing is a new type of micro-transportation that has emerged in urban areas in recent years. Its appearance provides a new way to solve the “last mile” problem. However, while bringing us convenience, shared bicycles also have some difficult problems to solve, among which the re-balancing problem is more prominent.
 
-## Altair Example
+The problem of re-balancing arises because the number of shared bicycles is not evenly distributed among various sites. In some remote sites, people ride bikes out of the site, but no one returns the shared bicycles. A common solution is that the shared bicycle companies will send some trucks to transport the shared bicycles to these sites to complete the supplement of shared bicycles. The question with this type of solution is how to distribute the volume of these trucks to maximize efficiency?
 
-Below is a chart of the incidence of measles since 1928 for the 50 US states.
+In general, there are two steps in truck-based rebalancing approaches, i.e., demand prediction and station rebalancing. First, it is crucial to accurately predict the demand at each station to foresee the bike and dock availability in the future. Second, it is important to design effective strategies for truck operators to reposition bikes among stations.
 
-<div id="altair-chart-1"></div>
+This project will focus on the first step of the problem by taking [Indego](https://www.rideindego.com/), a bike-sharing system in the Philadelphia area, as a research sample, on which we will use different models (OLS, Random Forest, ARIMA, Neural Networks, etc.) to make accurate demand forecasts. Indego started operation on April 23, 2015, with 125 stations and 1,000 bicycles. After 7 years of development, the function of this system has tended to be comprehensive, which is appropriate for research. In this analysis, we select a **5-week** period from **May 17** to **June 20**, **2021** for temporal/spatial analysis.
 
-This was produced using Altair and embedded in this static web page. Note that you can also display Python code on this page:
+This section will show embedding interactive charts produced using [Altair](https://altair-viz.github.io) and [Hvplot](https://hvplot.pyviz.org/).
 
-```python
-import altair as alt
-alt.renderers.enable('notebook')
-```
+# II. Exploratory Data Analysis
 
-## HvPlot Example
+## 2.1 Temporal Pattern
 
-Lastly, the measles incidence produced using the HvPlot package:
+![fig1]({{ site.url }}{{ site.baseurl }}/assets/img/fig1.png)
 
-<div id="hv-chart-1"></div>
+There is clearly a daily periodicity and there are lull periods on weekends. Notice that the weekend near the 31st of May (Memorial Day) doesn’t have the same dip in activity.
 
-## Notes
+![fig2]({{ site.url }}{{ site.baseurl }}/assets/img/fig2.png)
 
-- See the [lecture 13A slides](https://musa-550-fall-2022.github.io/slideslecture-13A.html) for the code that produced these plots.
+From the morning, the number of rides gradually increases, and as we can see, the number peaks in the late afternoon (16-18), this may be attributed to the evening rush in Philadelphia, the number falls quickly. 
 
-**Important: When embedding charts, you will likely need to adjust the width/height of the charts before embedding them in the page so they fit nicely when embedded.**
+![fig3]({{ site.url }}{{ site.baseurl }}/assets/img/fig3.png)
 
-# Example: Embedding Folium charts
+For weekends and weekdays, the trends of rides in the day are almost the same, while the rides in the daytime (5-18) on the weekends are much less than that on the weekdays.
 
-This post will show examples of embedding interactive maps produced using [Folium](https://github.com/python-visualization/folium).
+![fig4]({{ site.url }}{{ site.baseurl }}/assets/img/fig4.png)
 
-## OSMnx and Street Networks
+![fig5]({{ site.url }}{{ site.baseurl }}/assets/img/fig5.png)
 
-The shortest route between the Art Museum and the Liberty Bell:
+As the *Indego* shared bike trip duration density suggests, most of the trips’ have duration less than 180 minutes (3 hours), therefore we discard trips with longer duration (more than 3 hours). (Trips: **97435**)
 
-<div id="folium-chart-1"></div>
+## 2.2 Spatial Pattern
 
-<br/>
+In this part, we check the spatial characteristics in the following categories:
 
-## Percentage of Households without Internet
+- **Internal Characteristics**
 
-The percentage of households without internet by county:
+- **Demographic (Census)**
 
-<div id="folium-chart-2"></div>
+- **Amenities/Disamenities**
 
-See the [lecture 9B slides](https://musa-550-fall-2022.github.io/slides/lecture-9B.html) and the [lecture 10A slides](https://musa-550-fall-2022.github.io/slides/lecture-10A.html) for the code that produced these plots.
+- **Transportation network**
+
+- **Neighboring stations**
+
+### 2.2.1 Internal Characteristics
+
+- Active Station: **139**
+
+- Number of Docks in Each Station, Philadelphia 2021
+
+![fig6]({{ site.url }}{{ site.baseurl }}/assets/img/fig6.png)
+
+Below are the scatter plots of the stations, we can see that they are clustered around the center city. As for the trips, a station tends to have almost the same number of start and end trips, given the high similarity shown in the plots. Correspondingly, in the modeling part, we only select the number of start trips.
+
+<div id="hv-chart-3"></div>
+
+### 2.2.2 Census demographic data
+
+In this part, we download data from [American Community Survey 5-Year Data]( American Community Survey 5-Year Data (2009-2021) (census.gov)) in Philadelphia (2021) to check the relation between the social/economical features and the shared bike demand.
+
+- Choropleth of Social/Economical Features
+
+<div id="hv-chart-2"></div>
+
+From the choropleths, we can see that the existing shared bike stations generally locate at the places where the people tend to be younger, having higher income and no car. The below 2 `hvplot` interactive charts present this point more accurately.
+
+- Chart of Median Income vs Transit Mode Selection in Philadelphia.
+
+<div id="altair-chart-2"></div>
+
+- Chart of Median Age vs Transit Mode Selection in Philadelphia.
+
+<div id="altair-chart-3"></div>
+
+### 2.2.3 Amenities/Disamenities
+
+Add two new features:
+
+1. Distances to the nearest **10 restaurants** from [Open Street Map](https://wiki.openstreetmap.org/wiki/Map_Features);
+
+2. Whether the station is located within Center City.
+
+- ***Plot:*** Mean Distance to Nearest 10 Restaurants (log transformed)
+
+![fig8]({{ site.url }}{{ site.baseurl }}/assets/img/fig8.png)
+
+### 2.2.4 Transportation Network
+
+Add a feature that calculates the distance to the nearest intersections.
+
+- Intersections
+
+![fig9]({{ site.url }}{{ site.baseurl }}/assets/img/fig9.png)
+
+- ***Plot:*** Mean Distance to Nearest 3 Intersections (log transformed)
+
+![fig10]({{ site.url }}{{ site.baseurl }}/assets/img/fig10.png)
+
+### 2.2.5 Neighboring Stations
+
+- **Spatial Lag**: a feature that encodes the fact that demand for a specific station is likely related to the demand in neighboring stations.
+
+We add two new features:
+
+1. The average distance to the nearest 5 stations
+
+2. The average trip total for the nearest 5 stations
+
+- ***Plot***: Mean Distance to Nearest 5 Stations (log transformed)
+
+![fig11]({{ site.url }}{{ site.baseurl }}/assets/img/fig11.png)
+
+- **Check the correlation between the trip counts and the spatial lag**
+
+![fig12]({{ site.url }}{{ site.baseurl }}/assets/img/fig12.png)
+
+From the figure, we can see that there is a linear correlation between the trip counts and the spatial lag.
+
+### 2.2.6 Correlation Matrix
+
+![fig13]({{ site.url }}{{ site.baseurl }}/assets/img/fig13.png)
+
+# III. Modeling
+
+In this section we will try several models to predict the *Indego* Shared Bike Demand. Following is the plan:
+
+## 3.1 General Demand Prediction
+
+- **OLS** Models (Base line)
+
+  - Unregularized Linear Regression
+
+  - Ridge Regression
+ 
+  - Lasso Regression
+
+  - Elastic Net Regression
+
+- **Random Forests**
+
+  - Fit a random forest model, using cross validation to optimize (some) hyperparameters;
+
+  - Find out the most important features in the random forest model;
+
+  - Compare to the baseline linear regression models.
+
+## 3.2 Time Series Prediction:
+
+Only select the station: ***Amtrak 30th Street Station***
+
+- **ARIMA**
+  
+  - To find the order of differencing(d) in ARIMA model
+
+  - To find the order of AR term (p) and MA term (q)
+
+  - Automatically build SARIMA model in python
+
+  - Data forecasting using the model created
+
+  
+- **GRU**
+
+  -	GRU architecture built on PyTorch.
+  
+  -	Generate a panel of interval 60 minutes. 
+
+  -	Split Train/Test Set ratio: **0.8**.
+
+  -	Use 3 week’s records to predict one hour’s demand.
+
+  -	Select a specific station: Amtrak 30th Street Station as an example.
+
+  -	Metrics: *MSE*: 1.96 *MAE*: 1.03 *RMSE*: 1.40 *R-Squared*: 0.17
+
+  -	Tuning hyperparameter
+
+![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
+
+- ***Metrics***:
+
+  - *MSE*
+
+  - *MAE*
+ 
+  - *RMSE*
+
+  - *R-Squared*
+
+
+
+
