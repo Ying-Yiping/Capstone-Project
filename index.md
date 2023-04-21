@@ -192,6 +192,10 @@ Predict overall *MAE* for all **139** stations, and select the station: ***Amtra
 
 ![gcn]({{ site.url }}{{ site.baseurl }}/assets/img/gcn.png)
 
+![G]({{ site.url }}{{ site.baseurl }}/assets/img/G.png)
+
+![formula]({{ site.url }}{{ site.baseurl }}/assets/img/formula.png)
+
 <div id="hv-chart-1"></div>
 
 <div id="hv-chart-4"></div>
