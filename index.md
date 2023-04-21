@@ -4,8 +4,10 @@ altair-loader:
   altair-chart-2: "charts/Philly_mode_income.json"
   altair-chart-3: "charts/Philly_mode_age.json"
 hv-loader:
+  hv-chart-1: ["charts/MAE.html", "500"]
   hv-chart-2: ["charts/tabs.html", "500"]
   hv-chart-3: ["charts/tabs0.html", "500"]
+  hv-chart-4: ["charts/MAE_comparison.html", "500"]
 ---
 
 # Welcome!
@@ -187,6 +189,10 @@ Predict overall *MAE* for all **139** stations, and select the station: ***Amtra
 ![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
 
 - **GCN**
+
+<div id="hv-chart-1"></div>
+
+<div id="hv-chart-4"></div>
 
 - **GCN-GRU**
 
