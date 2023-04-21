@@ -206,4 +206,8 @@ Define the weight of edge ei,j = {vi, vj} ∈ E as W(vi, vj), which is calculate
 
 ![combined]({{ site.url }}{{ site.baseurl }}/assets/img/combined.png)
 
+# IV. Rebalancing
 
+- Define the reasonable number of the bikes in a station: **20%** to **65%**
+
+- ***Integer Linear Programming***
