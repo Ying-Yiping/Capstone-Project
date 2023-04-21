@@ -3,6 +3,7 @@ layout: default
 altair-loader:
   altair-chart-2: "charts/Philly_mode_income.json"
   altair-chart-3: "charts/Philly_mode_age.json"
+  altair-chart-4: "charts/rebalance.json"
 hv-loader:
   hv-chart-1: ["charts/MAE.html", "500"]
   hv-chart-2: ["charts/tabs.html", "500"]
@@ -211,3 +212,6 @@ Define the weight of edge ei,j = {vi, vj} ∈ E as W(vi, vj), which is calculate
 - Define the reasonable number of the bikes in a station: **20%** to **65%**
 
 - ***Integer Linear Programming***
+
+<div id="altair-chart-4"></div>
+
