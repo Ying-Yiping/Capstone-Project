@@ -170,7 +170,7 @@ In this section we will try several models to predict the *Indego* Shared Bike D
 
 Predict overall *MAE* for all **139** stations, and select the station: ***Amtrak 30th Street Station*** as a case study.
 
-- **GRU**
+- **GRU** : Gated Recurrent Units
 
   -	GRU architecture built on PyTorch.
   
@@ -188,7 +188,7 @@ Predict overall *MAE* for all **139** stations, and select the station: ***Amtra
 
 ![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
 
-- **GCN**
+- **GCN** ： Graph Convolutional Networks
 
 ![gcn]({{ site.url }}{{ site.baseurl }}/assets/img/gcn.png)
 
