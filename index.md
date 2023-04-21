@@ -166,19 +166,8 @@ In this section we will try several models to predict the *Indego* Shared Bike D
 
 ## 3.2 Time Series Prediction:
 
-Only select the station: ***Amtrak 30th Street Station***
+Predict overall *MAE* for all **139** stations, and select the station: ***Amtrak 30th Street Station*** as a case study.
 
-- **ARIMA**
-  
-  - To find the order of differencing(d) in ARIMA model
-
-  - To find the order of AR term (p) and MA term (q)
-
-  - Automatically build SARIMA model in python
-
-  - Data forecasting using the model created
-
-  
 - **GRU**
 
   -	GRU architecture built on PyTorch.
@@ -187,26 +176,18 @@ Only select the station: ***Amtrak 30th Street Station***
 
   -	Split Train/Test Set ratio: **0.8**.
 
-  -	Use 3 week’s records to predict one hour’s demand.
+  -	Use **3 week’s** records to predict **one hour’s** demand.
 
   -	Select a specific station: Amtrak 30th Street Station as an example.
 
-  -	Metrics: *MSE*: 1.96 *MAE*: 1.03 *RMSE*: 1.40 *R-Squared*: 0.17
+  -	Metrics: *MSE*: 1.96; *MAE*: **1.03**; *RMSE*: 1.40; *R-Squared*: 0.17
 
   -	Tuning hyperparameter
 
 ![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
 
-- ***Metrics***:
+- **GCN**
 
-  - *MSE*
-
-  - *MAE*
- 
-  - *RMSE*
-
-  - *R-Squared*
-
-
+- **GCN-GRU**
 
 
