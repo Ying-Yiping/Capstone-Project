@@ -22,11 +22,11 @@ Bike sharing is a new type of micro-transportation that has emerged in urban are
 
 The problem of re-balancing arises because the number of shared bicycles is not evenly distributed among various sites. In some remote sites, people ride bikes out of the site, but no one returns the shared bicycles. A common solution is that the shared bicycle companies will send some trucks to transport the shared bicycles to these sites to complete the supplement of shared bicycles. The question with this type of solution is how to distribute the volume of these trucks to maximize efficiency?
 
-In general, there are two steps in truck-based rebalancing approaches, i.e., demand prediction and station rebalancing. First, it is crucial to accurately predict the demand at each station to foresee the bike and dock availability in the future. Second, it is important to design effective strategies for truck operators to reposition bikes among stations.
+In general, there are two steps in truck-based rebalancing approaches, i.e., demand prediction and station rebalancing. **First**, it is crucial to accurately predict the demand at each station to foresee the bike and dock availability in the future. **Second**, it is important to design effective strategies for truck operators to reposition bikes among stations.
 
 This project will focus on the first step of the problem by taking [Indego](https://www.rideindego.com/), a bike-sharing system in the Philadelphia area, as a research sample, on which we will use different models (OLS, Random Forest, ARIMA, Neural Networks, etc.) to make accurate demand forecasts. Indego started operation on April 23, 2015, with 125 stations and 1,000 bicycles. After 7 years of development, the function of this system has tended to be comprehensive, which is appropriate for research. In this analysis, we select a **5-week** period from **May 17** to **June 20**, **2021** for temporal/spatial analysis.
 
-This section will show embedding interactive charts produced using [Altair](https://altair-viz.github.io) and [Hvplot](https://hvplot.pyviz.org/).
+![procedure]({{ site.url }}{{ site.baseurl }}/assets/img/procedure.png)
 
 # II. Exploratory Data Analysis
 
@@ -192,6 +192,8 @@ Predict overall *MAE* for all **139** stations, and select the station: ***Amtra
 
 ![gcn]({{ site.url }}{{ site.baseurl }}/assets/img/gcn.png)
 
+Define the weight of edge ei,j = {vi, vj} ∈ E as W(vi, vj), which is calculated based on the correlation between station vi and station vj. In this work, we model the station correlation based on the geographical distance between them. We note that the correlation modeling can directly adapt to other application scenarios, e.g., by calculating the similarity of point-of-interest distributions among stations.
+
 ![G]({{ site.url }}{{ site.baseurl }}/assets/img/G.png)
 
 ![formula]({{ site.url }}{{ site.baseurl }}/assets/img/formula.png)
@@ -201,5 +203,7 @@ Predict overall *MAE* for all **139** stations, and select the station: ***Amtra
 <div id="hv-chart-4"></div>
 
 - **GCN-GRU**
+
+![combined]({{ site.url }}{{ site.baseurl }}/assets/img/combined.png)
 
 
