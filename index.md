@@ -199,11 +199,11 @@ All of these would contribute to inaccurate demand prediction here. Therefore, w
 
   - **GRU**: 1.03
   - **GCN**: 1.23
-  - **GCN-GRU**: **0.78***
+  - **GCN-GRU**: **0.98***
 
-The above figures show the results of both baseline models and the new combined one. Generally, all three performed well, but the GCN-GRU is the best, with the lowest MAE 0.78. The other two have MAE around 1. We can also see, that GRU model can capture the periodical change in MAE, while the GCN with geographic information can depict the detail of changes (especially in the scale of hours in a day), even though the total MAE is slightly higher. GCN-GRU has both the strengths, it can predict very well when the demand is low (in the morning) and can catch the trend. However, when the demand is high, in some extreme cases like late afternoon on June 15th, 2021, the demand was historically high (9 in an hour), the prediction was not so accurate, with MAE of 3 at that time. This is a general problem, maybe more advanced techniques should be applied here, or we should just filter them out as outliers.
+The above figures show the results of both baseline models and the new combined one. Generally, all three performed well, but the GCN-GRU is the best, with the lowest MAE 0.98. The other two have MAE around 1. We can also see, that GRU model can capture the periodical change in MAE, while the GCN with geographic information can depict the detail of changes (especially in the scale of hours in a day), even though the total MAE is slightly higher. GCN-GRU has both the strengths, it can predict very well when the demand is low (in the morning) and can catch the trend. However, when the demand is high, in some extreme cases like late afternoon on June 15th, 2021, the demand was historically high (9 in an hour), the prediction was not so accurate, with MAE of 3 at that time. This is a general problem, maybe more advanced techniques should be applied here, or we should just filter them out as outliers.
 
-Apart from the generally good MAE, one thing should not be ignored. The number of demands in one station is of integer form, while our prediction is decimal. Even the MAE is improved, how should we interpret the number? Should 0.78 be the same as 1.23 when making decisions? This also requires further studies.
+Apart from the generally good MAE, one thing should not be ignored. The number of demands in one station is of integer form, while our prediction is decimal. Even the MAE is improved, how should we interpret the number? Should 0.98 be the same as 1.23 when making decisions? This also requires further studies.
 
 # IV. Rebalancing
 
