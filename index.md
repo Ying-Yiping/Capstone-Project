@@ -195,7 +195,11 @@ All of these would contribute to inaccurate demand prediction here. Therefore, w
 
 ![GCN-GRU]({{ site.url }}{{ site.baseurl }}/assets/img/GCN-GRU.png)
 
-![mae_0428]({{ site.url }}{{ site.baseurl }}/assets/img/mae_0428.png)
+- ***MAE***:
+
+  - **GRU**: 1.03
+  - **GCN**: 1.23
+  - **GCN-GRU**: **0.78***
 
 The above figures show the results of both baseline models and the new combined one. Generally, all three performed well, but the GCN-GRU is the best, with the lowest MAE 0.78. The other two have MAE around 1. We can also see, that GRU model can capture the periodical change in MAE, while the GCN with geographic information can depict the detail of changes (especially in the scale of hours in a day), even though the total MAE is slightly higher. GCN-GRU has both the strengths, it can predict very well when the demand is low (in the morning) and can catch the trend. However, when the demand is high, in some extreme cases like late afternoon on June 15th, 2021, the demand was historically high (9 in an hour), the prediction was not so accurate, with MAE of 3 at that time. This is a general problem, maybe more advanced techniques should be applied here, or we should just filter them out as outliers.
 
@@ -211,7 +215,7 @@ Apart from the generally good MAE, one thing should not be ignored. The number o
 
 For the station rebalancing, we select data of 3pm, June 16th, 2021, as the study period, as afternoon is generally the time that rebalancing is needed to prepare for demand increase in the later evening rush hours. We select the station: 19th & Lombard as our start point, with 3 bikes on the truck.
 
-Our selection criterion of the reasonable range of bikes in a station is around 20%-65% of total docks in that station. Based on this, we filtered out station need rebalancing, as shown in Fig4.7. In this figure, the yellow, positive number indicates that the station needs bikes suppled from other stations, while the blue, negative ones are those that can give away their extra bikes.
+Our selection criterion of the reasonable range of bikes in a station is around 20%-65% of total docks in that station. Based on this, we filtered out station need rebalancing, as shown above. In this figure, the yellow, positive number indicates that the station needs bikes suppled from other stations, while the blue, negative ones are those that can give away their extra bikes.
 
 We make the model based on the objective and constraints in section V. As for the station rebalancing results, with the help of *Gurobi* Optimizer, we find that the shortest path to re-balance all the overdemand and oversupply stations is ***56.409km***, travelling between 80 stations.
 
