@@ -147,65 +147,57 @@ From the figure, we can see that there is a linear correlation between the trip 
 
 In this section we will try several models to predict the *Indego* Shared Bike Demand. Following is the plan:
 
-## 3.1 General Demand Prediction
+- Predict overall *MAE* for all **139** stations
 
-- **OLS** Models (Base line)
+- select the station: ***Amtrak 30th Street Station*** as a case study.
 
-  - Unregularized Linear Regression
+## 3.1 **GRU** : Gated Recurrent Units
 
-  - Ridge Regression
- 
-  - Lasso Regression
+Gated Recurrent Unit. Recurrent Neural Networks (RNNs) can model the dependency of time series effectively. However, the traditional RNN models have limitations for long-term prediction due to gradient vanishing and gradient exploding problems. Although Long Short-term Memory (LSTM) can address these challenges, it has the defect of more training time consumption special for complex structures. Hence, we introduce Gated Recurrent Unit (GRU), the variant of RNNs, to model the temporal dependency. Compared with LSTM, GRU model has a relatively simple structure with fewer parameters and faster training speed.
 
-  - Elastic Net Regression
+## 3.2 **GCN** ： Graph Convolutional Networks
 
-- **Random Forests**
+In spatial correlation modeling, current works usually employ grid to divide the urban area, converting urban data to Euclidean domains, and then use Convolutional Neural Networks (CNN) to model spatial correlation. However, in our problem, the spatial distribution of bike stations is irregular and in non-Euclidean domains. Hence, we introduce graph structure to model the spatial distribution of bike stations and exploit Graph Convolutional Networks (GCN) to model spatial correlation. 
 
-  - Fit a random forest model, using cross validation to optimize (some) hyperparameters;
+## 3.3 General Results
 
-  - Find out the most important features in the random forest model;
-
-  - Compare to the baseline linear regression models.
-
-## 3.2 Time Series Prediction:
-
-Predict overall *MAE* for all **139** stations, and select the station: ***Amtrak 30th Street Station*** as a case study.
-
-- **GRU** : Gated Recurrent Units
-
-  -	GRU architecture built on PyTorch.
-  
-  -	Generate a panel of interval 60 minutes. 
-
-  -	Split Train/Test Set ratio: **0.8**.
-
-  -	Use **3 week’s** records to predict **one hour’s** demand.
-
-  -	Select a specific station: Amtrak 30th Street Station as an example.
-
-  -	Metrics: *MSE*: 1.96; *MAE*: **1.03**; *RMSE*: 1.40; *R-Squared*: 0.17
-
-  -	Tuning hyperparameter
-
-![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
-
-- **GCN** ： Graph Convolutional Networks
-
-![gcn]({{ site.url }}{{ site.baseurl }}/assets/img/gcn.png)
-
-Define the weight of edge ei,j = {vi, vj} ∈ E as W(vi, vj), which is calculated based on the correlation between station vi and station vj. In this work, we model the station correlation based on the geographical distance between them. We note that the correlation modeling can directly adapt to other application scenarios, e.g., by calculating the similarity of point-of-interest distributions among stations.
-
-![G]({{ site.url }}{{ site.baseurl }}/assets/img/G.png)
-
-![formula]({{ site.url }}{{ site.baseurl }}/assets/img/formula.png)
-
-<div id="hv-chart-1"></div>
+- ***MAE***: by interval, all stations
 
 <div id="hv-chart-4"></div>
 
-- **GCN-GRU**
+From the figures, we can see that for GRU, MAE changes periodically, generally having the lowest point in the morning, while in the afternoon, the number becomes bigger, which may be resulted from the fact that people ride more bikes in the afternoon. For GCN, the magnitude of the value change is not very large, basically around 0.8-1.0. However, this fact also indicates the weakness of the GCN model, even though it is stable.
 
-![combined]({{ site.url }}{{ site.baseurl }}/assets/img/combined.png)
+- ***MAE***: by station, all intervals
+
+<div id="hv-chart-1"></div>
+
+The scatter patterns of the two models also suggest what we have discovered in the above interval MAE check. One thing the two have in common is that they tended to have larger MAE in center city, where the stations generally have more docks and more rides which is correspondent with the above. For the accuracy, GRU performs better on most stations than GCN.
+
+## 3.3 **GCN-GRU**
+
+With both spatial correlation and temporal dependency modeling, we build a spatiotemporal graph neural network (GCN-GRU) to accurately predict the bike demand. Following figure shows the model architecture of GCN-GRU. The objective function of GCN-GRU is to maximize the likelihood of predicting the time series in a future period of time. Specifically, the GCN-GRU model consists of two parts, i.e. GCN-based spatial correlation modeling and GRU-based temporal dependency modeling. 
+
+![gcn]({{ site.url }}{{ site.baseurl }}/assets/img/gcn.png)
+
+- **Case Study**: *Amtrak 30th Street Station*
+
+Finally, we conduct a case study analysis to further understand the benefit and limits of our demand prediction. The selected station is the Amtrak 30th Street Station (18 docks).
+
+![amtrak]({{ site.url }}{{ site.baseurl }}/assets/img/amtrak.png)
+
+This *indego* bike station is just beside the Amtrak station and is in the university city. Its location (beside a transportation hub, close to center city), the highly educated ratio and younger median age in this block group all suggests that the number of bike trips start here will be large, since shared bikes serve as a kind of assisted transportation. Also, the number of docks is also very large (18), based on the last section, 
+
+All of these would contribute to inaccurate demand prediction here. Therefore, we tested our new model GCN-GRU, which synthesized the two that have been tested, and wanted to see whether the new model could combine the advantages of both and improve the accuracy of demand prediction. Below are the test results.
+
+![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
+
+![GCN_result]({{ site.url }}{{ site.baseurl }}/assets/img/GCN_result.png)
+
+![GCN-GRU]({{ site.url }}{{ site.baseurl }}/assets/img/GCN-GRU.png)
+
+The above figures show the results of both baseline models and the new combined one. Generally, all three performed well, but the GCN-GRU is the best, with the lowest MAE 0.78. The other two have MAE around 1. We can also see, that GRU model can capture the periodical change in MAE, while the GCN with geographic information can depict the detail of changes (especially in the scale of hours in a day), even though the total MAE is slightly higher. GCN-GRU has both the strengths, it can predict very well when the demand is low (in the morning) and can catch the trend. However, when the demand is high, in some extreme cases like late afternoon on June 15th, 2021, the demand was historically high (9 in an hour), the prediction was not so accurate, with MAE of 3 at that time. This is a general problem, maybe more advanced techniques should be applied here, or we should just filter them out as outliers.
+
+Apart from the generally good MAE, one thing should not be ignored. The number of demands in one station is of integer form, while our prediction is decimal. Even the MAE is improved, how should we interpret the number? Should 0.78 be the same as 1.23 when making decisions? This also requires further studies.
 
 # IV. Rebalancing
 
@@ -214,4 +206,14 @@ Define the weight of edge ei,j = {vi, vj} ∈ E as W(vi, vj), which is calculate
 - ***Integer Linear Programming***
 
 <div id="altair-chart-4"></div>
+
+For the station rebalancing, we select data of 3pm, June 16th, 2021, as the study period, as afternoon is generally the time that rebalancing is needed to prepare for demand increase in the later evening rush hours. We select the station: 19th & Lombard as our start point, with 3 bikes on the truck.
+
+Our selection criterion of the reasonable range of bikes in a station is around 20%-65% of total docks in that station. Based on this, we filtered out station need rebalancing, as shown in Fig4.7. In this figure, the yellow, positive number indicates that the station needs bikes suppled from other stations, while the blue, negative ones are those that can give away their extra bikes.
+
+We make the model based on the objective and constraints in section V. As for the station rebalancing results, with the help of *Gurobi* Optimizer, we find that the shortest path to re-balance all the overdemand and oversupply stations is ***56.409km***, travelling between 80 stations.
+
+# V. Summary
+
+Overall, our analysis aimed to take a deep dive into Philadelphia’s Indego bike sharing operations by using Graph Neural Networks and mixed integer programming techniques to optimize the rebalancing of bikes in a way which meets anticipated demands, alleviates surpluses and shortages in the system, and remains cost efficient. While we focused on a few select stations/regions and time periods, the models created are scalable and can be extended to other boroughs or time periods. By providing key insights into the requirements of maintaining such a dynamic system, we ultimately sought to demonstrate the opportunities which exist to further enhance the value of friendly and efficient transportation shared transportation systems in Philadelphia.
 
