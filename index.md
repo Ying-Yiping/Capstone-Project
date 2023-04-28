@@ -189,11 +189,13 @@ This *indego* bike station is just beside the Amtrak station and is in the unive
 
 All of these would contribute to inaccurate demand prediction here. Therefore, we tested our new model GCN-GRU, which synthesized the two that have been tested, and wanted to see whether the new model could combine the advantages of both and improve the accuracy of demand prediction. Below are the test results.
 
-![Figure_1]({{ site.url }}{{ site.baseurl }}/assets/img/Figure_1.png)
+![GRU_result]({{ site.url }}{{ site.baseurl }}/assets/img/GRU_result.png)
 
 ![GCN_result]({{ site.url }}{{ site.baseurl }}/assets/img/GCN_result.png)
 
 ![GCN-GRU]({{ site.url }}{{ site.baseurl }}/assets/img/GCN-GRU.png)
+
+![mae_0428]({{ site.url }}{{ site.baseurl }}/assets/img/mae_0428.png)
 
 The above figures show the results of both baseline models and the new combined one. Generally, all three performed well, but the GCN-GRU is the best, with the lowest MAE 0.78. The other two have MAE around 1. We can also see, that GRU model can capture the periodical change in MAE, while the GCN with geographic information can depict the detail of changes (especially in the scale of hours in a day), even though the total MAE is slightly higher. GCN-GRU has both the strengths, it can predict very well when the demand is low (in the morning) and can catch the trend. However, when the demand is high, in some extreme cases like late afternoon on June 15th, 2021, the demand was historically high (9 in an hour), the prediction was not so accurate, with MAE of 3 at that time. This is a general problem, maybe more advanced techniques should be applied here, or we should just filter them out as outliers.
 
