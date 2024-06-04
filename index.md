@@ -13,9 +13,9 @@ hv-loader:
 
 # Welcome!
 
-I am **Yiping Ying**, currently a student of [Master of Urban Spatial Analytics](https://www.design.upenn.edu/urban-spatial-analytics) at UPenn.
+I am **Yiping Ying**, currently a student at UPenn.
 
-This website is used to display my capstone project at this program.
+This website is used to display my capstone project.
 
 # I. Motivation
 
